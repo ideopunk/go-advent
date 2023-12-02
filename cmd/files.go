@@ -26,6 +26,5 @@ func fileToArr(filename string) ([]string, error) {
 		lines = append(lines, fileScanner.Text())
 	}
 
-	fmt.Println(lines)
 	return lines, nil
 }
