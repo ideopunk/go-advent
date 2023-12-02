@@ -113,7 +113,3 @@ func Day2(part int) (string, error) {
 
 	return strconv.Itoa(sum), nil
 }
-
-func Day2PartTwo() (string, error) {
-	return "", nil
-}
