@@ -28,6 +28,12 @@ func main() {
 		} else {
 			results, err = cmd.Day1PartTwo()
 		}
+	case "2":
+		if os.Args[2] == "1" {
+			results, err = cmd.Day2()
+		} else {
+			results, err = cmd.Day2PartTwo()
+		}
 	default:
 		fmt.Println("no matching day found")
 	}
