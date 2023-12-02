@@ -8,13 +8,14 @@ import (
 )
 
 type Game struct {
-	id    int
-	red   int
-	green int
-	blue  int
+	id      int
+	red     int
+	green   int
+	blue    int
+	product int
 }
 
-func Day2() (string, error) {
+func Day2(part int) (string, error) {
 	lines, err := fileToArr("./inputs/day_2.txt")
 	if err != nil {
 		return "", fmt.Errorf("could not convert file to arr: %v", err)
@@ -83,10 +84,17 @@ func Day2() (string, error) {
 			}
 		}
 
+		// Part One!
 		// decide if valid
-		if game.red > 12 || game.green > 13 || game.blue > 14 {
-			continue
+		if part == 1 {
+			if game.red > 12 || game.green > 13 || game.blue > 14 {
+				continue
+			}
 		}
+
+		// Part Two!
+		// calculate product
+		game.product = game.red * game.green * game.blue
 
 		games = append(games, game)
 	}
@@ -94,7 +102,13 @@ func Day2() (string, error) {
 	sum := 0
 
 	for _, game := range games {
-		sum += game.id
+		if part == 1 {
+			// part one
+			sum += game.id
+		} else {
+			// part two
+			sum += game.product
+		}
 	}
 
 	return strconv.Itoa(sum), nil
