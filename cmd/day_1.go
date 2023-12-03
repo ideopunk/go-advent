@@ -76,7 +76,7 @@ func wordToNum(word string) (string, error) {
 	return "0", fmt.Errorf("could not convert word to num: %v", word)
 }
 
-func Day1PartTwo() (string, error) {
+func Day1Part2() (string, error) {
 	lines, err := fileToArr("./inputs/day_1.txt")
 	if err != nil {
 		return "", fmt.Errorf("could not convert file to arr: %v", err)
