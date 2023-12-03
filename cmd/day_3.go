@@ -97,7 +97,7 @@ func Day3() (string, error) {
 			continue
 		}
 
-		// if this is a number, get the extension of the number
+		// if this is a number, get the extension of the number and its starting index
 		num, err := getFullNumber(lines[index.y], index.y, index.x)
 		if err != nil {
 			return "", fmt.Errorf("could not get full number: %v", err)
@@ -118,5 +118,70 @@ func Day3() (string, error) {
 }
 
 func Day3Part2() (string, error) {
-	return "day 3 part 2", nil
+	lines, err := fileToArr("./inputs/day_3.txt")
+	if err != nil {
+		return "", fmt.Errorf("could not convert file to arr: %v", err)
+	}
+
+	// find all * symbols
+
+	r, err := regexp.Compile("\\*")
+	if err != nil {
+		return "", fmt.Errorf("could not compile regex: %v", err)
+	}
+
+	sum := 0
+	for i, line := range lines {
+		gearIndices := r.FindAllStringIndex(line, -1)
+		for _, index := range gearIndices {
+			partIndices := map[string]Index{}
+			// add their area to the list
+
+			XY := []Index{
+				// above
+				{y: i - 1, x: index[0] - 1},
+				{y: i - 1, x: index[0]},
+				{y: i - 1, x: index[0] + 1},
+				//beside
+				{y: i, x: index[0] - 1},
+				{y: i, x: index[0] + 1},
+				// below
+				{y: i + 1, x: index[0] - 1},
+				{y: i + 1, x: index[0]},
+				{y: i + 1, x: index[0] + 1},
+			}
+
+			// get all the full numbers in the area.
+			for _, xy := range XY {
+				// is this a number?
+				_, err := strconv.Atoi(string(lines[xy.y][xy.x]))
+				if err != nil {
+					continue
+				}
+
+				fullNum, err := getFullNumber(lines[xy.y], xy.y, xy.x)
+				if err != nil {
+					return "", fmt.Errorf("could not get full number: %v", err)
+				}
+
+				partIndices[strconv.Itoa(fullNum.x)+"-"+strconv.Itoa(fullNum.y)] = fullNum
+
+			}
+
+			// only allow gears with two parts c:
+			if len(partIndices) != 2 {
+				continue
+			}
+
+			product := 1
+			for _, num := range partIndices {
+				product *= num.number
+			}
+
+			sum += product
+		}
+
+	}
+
+	return strconv.Itoa(sum), nil
 }
