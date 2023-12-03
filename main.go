@@ -21,24 +21,30 @@ func main() {
 	var results string
 	var err error
 
+	lines, err := cmd.FileToArr("./inputs/day_" + os.Args[1] + ".txt")
+	if err != nil {
+		fmt.Printf("could not convert file to arr: %v", err)
+		return
+	}
+
 	switch os.Args[1] {
 	case "1":
 		if os.Args[2] == "1" {
-			results, err = cmd.Day1()
+			results, err = cmd.Day1(&lines)
 		} else {
-			results, err = cmd.Day1Part2()
+			results, err = cmd.Day1Part2(&lines)
 		}
 	case "2":
 		if os.Args[2] == "1" {
-			results, err = cmd.Day2(1)
+			results, err = cmd.Day2(&lines, 1)
 		} else {
-			results, err = cmd.Day2(2)
+			results, err = cmd.Day2(&lines, 2)
 		}
 	case "3":
 		if os.Args[2] == "1" {
-			results, err = cmd.Day3()
+			results, err = cmd.Day3(&lines)
 		} else {
-			results, err = cmd.Day3Part2()
+			results, err = cmd.Day3Part2(&lines)
 		}
 	default:
 		fmt.Println("no matching day found")

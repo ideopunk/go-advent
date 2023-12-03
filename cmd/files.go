@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func fileToArr(filename string) ([]string, error) {
+func FileToArr(filename string) ([]string, error) {
 	if filename == "" {
 		return nil, fmt.Errorf("no filename provided")
 	}

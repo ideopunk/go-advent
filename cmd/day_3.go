@@ -51,12 +51,7 @@ func getFullNumber(line string, yIndex, xIndex int) (Index, error) {
 	return fullNumber, nil
 }
 
-func Day3() (string, error) {
-	lines, err := fileToArr("./inputs/day_3.txt")
-	if err != nil {
-		return "", fmt.Errorf("could not convert file to arr: %v", err)
-	}
-
+func Day3(lines *[]string) (string, error) {
 	// find all special symbols
 	areaIndices := []Index{}
 
@@ -65,7 +60,7 @@ func Day3() (string, error) {
 		return "", fmt.Errorf("could not compile regex: %v", err)
 	}
 
-	for i, line := range lines {
+	for i, line := range *lines {
 		lineIndices := r.FindAllStringIndex(line, -1)
 
 		for _, index := range lineIndices {
@@ -92,13 +87,13 @@ func Day3() (string, error) {
 
 	for _, index := range areaIndices {
 		// is this a number?
-		_, err := strconv.Atoi(string(lines[index.y][index.x]))
+		_, err := strconv.Atoi(string((*lines)[index.y][index.x]))
 		if err != nil {
 			continue
 		}
 
 		// if this is a number, get the extension of the number and its starting index
-		num, err := getFullNumber(lines[index.y], index.y, index.x)
+		num, err := getFullNumber((*lines)[index.y], index.y, index.x)
 		if err != nil {
 			return "", fmt.Errorf("could not get full number: %v", err)
 		}
@@ -117,21 +112,15 @@ func Day3() (string, error) {
 	return strconv.Itoa(sum), nil
 }
 
-func Day3Part2() (string, error) {
-	lines, err := fileToArr("./inputs/day_3.txt")
-	if err != nil {
-		return "", fmt.Errorf("could not convert file to arr: %v", err)
-	}
-
+func Day3Part2(lines *[]string) (string, error) {
 	// find all * symbols
-
 	r, err := regexp.Compile("\\*")
 	if err != nil {
 		return "", fmt.Errorf("could not compile regex: %v", err)
 	}
 
 	sum := 0
-	for i, line := range lines {
+	for i, line := range *lines {
 		gearIndices := r.FindAllStringIndex(line, -1)
 		for _, index := range gearIndices {
 			partIndices := map[string]Index{}
@@ -154,12 +143,12 @@ func Day3Part2() (string, error) {
 			// get all the full numbers in the area.
 			for _, xy := range XY {
 				// is this a number?
-				_, err := strconv.Atoi(string(lines[xy.y][xy.x]))
+				_, err := strconv.Atoi(string((*lines)[xy.y][xy.x]))
 				if err != nil {
 					continue
 				}
 
-				fullNum, err := getFullNumber(lines[xy.y], xy.y, xy.x)
+				fullNum, err := getFullNumber((*lines)[xy.y], xy.y, xy.x)
 				if err != nil {
 					return "", fmt.Errorf("could not get full number: %v", err)
 				}

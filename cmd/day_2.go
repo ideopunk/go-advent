@@ -15,11 +15,7 @@ type Game struct {
 	product int
 }
 
-func Day2(part int) (string, error) {
-	lines, err := fileToArr("./inputs/day_2.txt")
-	if err != nil {
-		return "", fmt.Errorf("could not convert file to arr: %v", err)
-	}
+func Day2(lines *[]string, part int) (string, error) {
 
 	r, err := regexp.Compile(", |; ")
 	if err != nil {
@@ -28,7 +24,7 @@ func Day2(part int) (string, error) {
 
 	games := make([]Game, 0)
 
-	for _, line := range lines {
+	for _, line := range *lines {
 
 		// get ID
 		split := strings.Split(line, ": ")

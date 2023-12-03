@@ -6,14 +6,9 @@ import (
 	"strconv"
 )
 
-func Day1() (string, error) {
-	lines, err := fileToArr("./inputs/day_1.txt")
-	if err != nil {
-		return "", fmt.Errorf("could not convert file to arr: %v", err)
-	}
-
+func Day1(lines *[]string) (string, error) {
 	sum := 0
-	for _, line := range lines {
+	for _, line := range *lines {
 		var char1 string
 		var char2 string
 
@@ -76,11 +71,7 @@ func wordToNum(word string) (string, error) {
 	return "0", fmt.Errorf("could not convert word to num: %v", word)
 }
 
-func Day1Part2() (string, error) {
-	lines, err := fileToArr("./inputs/day_1.txt")
-	if err != nil {
-		return "", fmt.Errorf("could not convert file to arr: %v", err)
-	}
+func Day1Part2(lines *[]string) (string, error) {
 
 	r, err := regexp.Compile("one|two|three|four|five|six|seven|eight|nine|[1-9]")
 	if err != nil {
@@ -88,7 +79,7 @@ func Day1Part2() (string, error) {
 	}
 
 	sum := 0
-	for _, line := range lines {
+	for _, line := range *lines {
 		first := r.FindString(line)
 		if len(first) > 1 {
 			var err error
