@@ -1,11 +1,11 @@
-package cmd
+package convert
 
 import (
 	"fmt"
 	"strconv"
 )
 
-func stringSliceToIntSlice(s []string) ([]int, error) {
+func StringSliceToIntSlice(s []string) ([]int, error) {
 
 	ints := make([]int, len(s))
 	for i, str := range s {
