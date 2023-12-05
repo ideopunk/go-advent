@@ -11,9 +11,10 @@ import (
 )
 
 type Card struct {
-	winners []int
-	mine    []int
-	matches int
+	winners  []int
+	mine     []int
+	matches  int
+	quantity int
 }
 
 func lineToCard(line string) (Card, error) {
@@ -38,9 +39,10 @@ func lineToCard(line string) (Card, error) {
 	}
 
 	return Card{
-		winners: winners,
-		mine:    mine,
-		matches: 0,
+		winners:  winners,
+		mine:     mine,
+		matches:  0,
+		quantity: 1,
 	}, nil
 }
 
@@ -78,6 +80,27 @@ func Day4(lines *[]string) (string, error) {
 }
 
 func Day4Part2(lines *[]string) (string, error) {
+	sum := 0
+	cards := make([]Card, len(*lines))
 
-	return "", nil
+	for _, line := range *lines {
+		card, err := lineToCard(line)
+		if err != nil {
+			return "", fmt.Errorf("could not convert line to card: %v", err)
+		}
+
+		card.play()
+		cards = append(cards, card)
+	}
+
+	for i := 0; i < len(cards); i++ {
+		score := cards[i].matches
+		for j := i + 1; j < i+1+score; j++ {
+			cards[j].quantity += cards[i].quantity
+		}
+
+		sum += cards[i].quantity
+	}
+
+	return strconv.Itoa(sum), nil
 }
