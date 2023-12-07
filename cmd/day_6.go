@@ -93,6 +93,35 @@ func LinesToRaces(lines *[]string) ([]Race, error) {
 	return races, nil
 }
 
+func SetToRace(lines *[]string) (Race, error) {
+	race := Race{}
+	re, err := regexp.Compile("\\s+")
+	if err != nil {
+		return race, fmt.Errorf("could not compile regex: %v", err)
+	}
+
+	pretime := strings.Split((*lines)[0], ":")[1]
+	predistance := strings.Split((*lines)[1], ":")[1]
+
+	t := re.ReplaceAllString(pretime, "")
+	d := re.ReplaceAllString(predistance, "")
+
+	time, err := strconv.Atoi(t)
+	if err != nil {
+		return race, fmt.Errorf("could not convert time to int: %v", err)
+	}
+
+	distance, err := strconv.Atoi(d)
+	if err != nil {
+		return race, fmt.Errorf("could not convert distance to int: %v", err)
+	}
+
+	race.time = time
+	race.distance = distance
+
+	return race, nil
+}
+
 func Day6(lines *[]string) (string, error) {
 	races, err := LinesToRaces(lines)
 
@@ -110,11 +139,11 @@ func Day6(lines *[]string) (string, error) {
 }
 
 func Day6Part2(lines *[]string) (string, error) {
-	race := Race{}
+	race, err := SetToRace(lines)
 
-	// if err != nil {
-	// 	return "", fmt.Errorf("could not convert lines to races: %v", err)
-	// }
+	if err != nil {
+		return "", fmt.Errorf("could not convert set to races: %v", err)
+	}
 
 	holdTimes := race.WinningHoldTimes()
 
