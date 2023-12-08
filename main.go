@@ -64,6 +64,10 @@ func main() {
 		} else {
 			results, err = cmd.Day6Part2(&lines)
 		}
+	case "7":
+		if os.Args[2] == "1" {
+			results, err = cmd.Day7(&lines)
+		}
 	default:
 		fmt.Println("no matching day found")
 	}
