@@ -78,6 +78,6 @@ func Day9(lines *[]string, pt int) (string, error) {
 			sum += PrevValue(pattern)
 		}
 	}
-
+	
 	return strconv.Itoa(sum), nil
 }
