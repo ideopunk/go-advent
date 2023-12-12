@@ -3,11 +3,13 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/ideopunk/advent/cmd"
 )
 
 func main() {
+	start := time.Now()
 	if len(os.Args) < 2 {
 		fmt.Println("no day provided")
 		return
@@ -97,5 +99,6 @@ func main() {
 		return
 	}
 
+	fmt.Println("took", time.Since(start))
 	fmt.Println(results)
 }
